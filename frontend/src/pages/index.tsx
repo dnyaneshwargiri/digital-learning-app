@@ -39,8 +39,21 @@ const Home = () => {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+    <Box
+      sx={{
+        p: 4,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
+      }}
+    >
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ width: '100%' }}
+      >
         <Typography variant="h4">Programs</Typography>
         <Link href="/program/new-program" passHref>
           <Button variant="contained" color="primary">
