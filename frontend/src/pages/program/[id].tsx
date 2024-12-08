@@ -1,4 +1,3 @@
-// src/pages/programs/[id].tsx
 import { useRouter } from 'next/router';
 import {
   Typography,
@@ -12,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { ProgramDetailsProps } from '@/app/types/ProgramDetailsProps';
 import axiosInstance from '@/api/axios';
 import styles from './program-details.module.css';
+import withAuth from '@/app/utils/guards/with-auth';
 
 const ProgramDetails = () => {
   const router = useRouter();
@@ -73,4 +73,4 @@ const ProgramDetails = () => {
   );
 };
 
-export default ProgramDetails;
+export default withAuth(ProgramDetails);

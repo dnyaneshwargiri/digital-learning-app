@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { Program } from '@/app/types/Program';
 import axiosInstance from '@/api/axios';
 import AppSnackbar from '@/app/common/snackbar';
+import withAuth from '@/app/utils/guards/with-auth';
 
 const Home = () => {
   const [programs, setPrograms] = useState<Program[]>([]);
@@ -79,4 +80,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withAuth(Home);

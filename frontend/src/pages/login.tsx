@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField, Button, Box, Typography, Paper } from '@mui/material';
 import axios from 'axios';
 import AppSnackbar from '@/app/common/snackbar';
 
@@ -13,13 +13,6 @@ const Login = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
     'error'
   );
-
-  useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      router.push('/');
-    }
-  }, [router]);
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -34,7 +27,7 @@ const Login = () => {
           password,
         }
       );
-      localStorage.setItem('jwtToken', response.data.jwt);
+      sessionStorage.setItem('jwtToken', response.data.jwt);
       router.push('/');
     } catch (error) {
       setSnackbarMessage('Login failed');
@@ -47,28 +40,47 @@ const Login = () => {
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
-        mt: 4,
+        height: '100vh',
+        backgroundColor: '#f5f5f5',
       }}
     >
-      <Typography variant="h4">Login</Typography>
-      <TextField
-        label="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        sx={{ mt: 2 }}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        sx={{ mt: 2 }}
-      />
-      <Button variant="contained" onClick={handleSubmit} sx={{ mt: 2 }}>
-        Submit
-      </Button>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 4,
+          maxWidth: 400,
+          width: '100%',
+        }}
+      >
+        <Typography variant="h4" align="center" gutterBottom>
+          Login
+        </Typography>
+        <TextField
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+          sx={{ mt: 2 }}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          sx={{ mt: 2 }}
+        />
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
+          fullWidth
+          sx={{ mt: 2 }}
+        >
+          Submit
+        </Button>
+      </Paper>
       <AppSnackbar
         open={snackbarOpen}
         severity={snackbarSeverity}

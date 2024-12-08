@@ -14,6 +14,7 @@ import {
 import axiosInstance from '@/api/axios';
 import { Module } from '@/app/types/Program';
 import AppSnackbar from '@/app/common/snackbar';
+import withAuth from '@/app/utils/guards/with-auth';
 
 const NewProgram = () => {
   const [title, setTitle] = useState('');
@@ -205,4 +206,4 @@ const NewProgram = () => {
   );
 };
 
-export default NewProgram;
+export default withAuth(NewProgram);
