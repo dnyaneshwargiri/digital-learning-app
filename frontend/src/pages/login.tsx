@@ -37,57 +37,57 @@ const Login = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        backgroundColor: '#f5f5f5',
-      }}
-    >
-      <Paper
-        elevation={3}
+      <Box
         sx={{
-          padding: 4,
-          maxWidth: 400,
-          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          backgroundColor: '#f5f5f5',
         }}
       >
-        <Typography variant="h4" align="center" gutterBottom>
-          Login
-        </Typography>
-        <TextField
-          label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          fullWidth
-          sx={{ mt: 2 }}
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-          sx={{ mt: 2 }}
-        />
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          fullWidth
-          sx={{ mt: 2 }}
+        <Paper
+          elevation={3}
+          sx={{
+            padding: 4,
+            maxWidth: 400,
+            width: '100%',
+          }}
         >
-          Submit
-        </Button>
-      </Paper>
-      <AppSnackbar
-        open={snackbarOpen}
-        severity={snackbarSeverity}
-        message={snackbarMessage}
-        onClose={handleSnackbarClose}
-      />
-    </Box>
+          <Typography variant="h4" align="center" gutterBottom>
+            Login
+          </Typography>
+          <TextField
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            sx={{ mt: 2 }}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            sx={{ mt: 2 }}
+          />
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            Submit
+          </Button>
+        </Paper>
+        <AppSnackbar
+          open={snackbarOpen}
+          severity={snackbarSeverity}
+          message={snackbarMessage}
+          onClose={handleSnackbarClose}
+        />
+      </Box>
   );
 };
 

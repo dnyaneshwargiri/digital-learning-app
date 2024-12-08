@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Typography, Grid2 } from '@mui/material';
+import { Box, Button, Typography, Grid } from '@mui/material';
 import Link from 'next/link';
 import { Program } from '@/app/types/Program';
 import axiosInstance from '@/api/axios';
@@ -55,13 +55,13 @@ const Home = () => {
           </Button>
         </Link>
       </Box>
-      <Grid2 container spacing={2} sx={{ mt: 2 }}>
+      <Grid container spacing={2} sx={{ mt: 2 }}>
         {programs.map((program) => (
-          <Grid2 item xs={12} sm={6} md={4} key={program.id}>
+          <Grid item xs={12} sm={6} md={4} key={program.id}>
             <ProgramCard program={program} />{' '}
-          </Grid2>
+          </Grid>
         ))}
-      </Grid2>
+      </Grid>
       <AppSnackbar
         open={snackbarOpen}
         severity={snackbarSeverity}

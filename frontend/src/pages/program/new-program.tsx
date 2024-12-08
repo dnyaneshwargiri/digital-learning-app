@@ -20,7 +20,7 @@ const NewProgram = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [modules, setModules] = useState([
-    { title: '', description: '', documentId: '' },
+    { title: '', description: '', id: '' },
   ]);
   const [availableModules, setAvailableModules] = useState<Module[]>([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -47,19 +47,19 @@ const NewProgram = () => {
   }, []);
 
   const handleAddModule = () => {
-    setModules([...modules, { title: '', description: '', documentId: '' }]);
+    setModules([...modules, { title: '', description: '', id: '' }]);
   };
 
   const handleModuleChange = (index: number, key: string, value: string) => {
     let newDescription = '';
-    let documentId = '';
+    let id = '';
     if (key === 'title') {
       const selectedModule = availableModules.find(
         (mod: Module) => mod.title === value
       );
       if (selectedModule) {
         newDescription = selectedModule.description;
-        documentId = selectedModule.documentId || '';
+        id = selectedModule.id.toString() || '';
       }
     }
 
@@ -69,7 +69,7 @@ const NewProgram = () => {
             ...module,
             [key]: value,
             description: newDescription,
-            documentId,
+            id,
           }
         : module
     );
@@ -116,7 +116,7 @@ const NewProgram = () => {
         data: newProgram,
       });
 
-      const moduleIds = modules.map((module) => module.documentId);
+      const moduleIds = modules.map((module) => module.id);
 
       const connectPayload = {
         data: {

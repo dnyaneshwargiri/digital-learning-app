@@ -5,7 +5,7 @@ import {
   Paper,
   Card,
   CardContent,
-  Grid2,
+  Grid,
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { ProgramDetailsProps } from '@/app/types/ProgramDetailsProps';
@@ -49,18 +49,18 @@ const ProgramDetails = () => {
       <Typography variant="h5" gutterBottom>
         Modules:
       </Typography>
-      <Grid2 container spacing={2}>
+      <Grid container spacing={2}>
         {program.modules.map((module, index) => (
-          <Grid2 item xs={12} sm={6} md={4} key={index}>
+          <Grid item xs={12} sm={6} md={4} key={index}>
             <Card className={styles.card}>
               <CardContent>
                 <Typography variant="h6">{module.title}</Typography>
                 <Typography variant="body2">{module.description}</Typography>
               </CardContent>
             </Card>
-          </Grid2>
+          </Grid>
         ))}
-      </Grid2>
+      </Grid>
       <Button
         variant="text"
         color="primary"
