@@ -1,5 +1,5 @@
 import { Program } from './Program';
 
-export interface ProgramDetailsProps {
+export type ProgramDetailsProps = {
   program: Program;
 }

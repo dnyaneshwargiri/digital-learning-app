@@ -1,6 +1,12 @@
-export interface Program {
+export type Program = {
   id: number;
   title: string;
   content: string;
-  modules: Array<{ title: string; description: string }>;
-}
+  modules: Array<Module>;
+};
+
+export type Module = {
+  id: number;
+  title: string;
+  description: string;
+};

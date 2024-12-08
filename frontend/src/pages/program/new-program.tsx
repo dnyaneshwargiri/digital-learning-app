@@ -8,10 +8,12 @@ import {
   Paper,
   MenuItem,
   Select,
-  Snackbar,
-  Alert,
+  FormControl,
+  FormHelperText,
 } from '@mui/material';
 import axiosInstance from '@/api/axios';
+import { Module } from '@/app/types/Program';
+import AppSnackbar from '@/app/common/snackbar';
 
 const NewProgram = () => {
   const [title, setTitle] = useState('');
@@ -23,10 +25,12 @@ const NewProgram = () => {
     'success'
   );
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [contentError, setContentError] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
-    // Fetch available modules from Strapi
     axiosInstance
       .get('/modules')
       .then((response) => {
@@ -58,7 +62,37 @@ const NewProgram = () => {
     setModules(updatedModules);
   };
 
+  const isModuleSelected = (moduleTitle: string): boolean => {
+    return (
+      modules.some((mod) => mod.title === moduleTitle) && moduleTitle !== ''
+    );
+  };
+
+  const validateFields = () => {
+    let isValid = true;
+
+    if (title.trim() === '') {
+      setTitleError(true);
+      isValid = false;
+    } else {
+      setTitleError(false);
+    }
+
+    if (content.trim() === '') {
+      setContentError(true);
+      isValid = false;
+    } else {
+      setContentError(false);
+    }
+
+    return isValid;
+  };
+
   const handleSubmit = async () => {
+    if (!validateFields()) {
+      return;
+    }
+
     try {
       const newProgram = {
         title,
@@ -88,20 +122,26 @@ const NewProgram = () => {
       <Typography variant="h4" gutterBottom>
         Add New Program
       </Typography>
-      <TextField
-        fullWidth
-        label="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        fullWidth
-        label="Content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        sx={{ mb: 2 }}
-      />
+      <FormControl fullWidth sx={{ mb: 2 }} error={titleError}>
+        <TextField
+          fullWidth
+          label="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+        {titleError && <FormHelperText>Title is required</FormHelperText>}
+      </FormControl>
+      <FormControl fullWidth sx={{ mb: 2 }} error={contentError}>
+        <TextField
+          fullWidth
+          label="Content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+        />
+        {contentError && <FormHelperText>Content is required</FormHelperText>}
+      </FormControl>
       <Typography variant="h6">Modules:</Typography>
       {modules.map((module, index) => (
         <Box key={index} sx={{ mb: 2 }}>
@@ -111,11 +151,12 @@ const NewProgram = () => {
             onChange={(e) => handleModuleChange(index, 'title', e.target.value)}
             displayEmpty
             sx={{ mb: 1 }}
+            disabled={isModuleSelected(module.title)}
           >
             <MenuItem value="" disabled>
               Select a module
             </MenuItem>
-            {availableModules.map((mod) => (
+            {availableModules.map((mod: Module) => (
               <MenuItem key={mod.id} value={mod.title}>
                 {mod.title}
               </MenuItem>
@@ -150,19 +191,12 @@ const NewProgram = () => {
           Submit
         </Button>
       </Box>
-      <Snackbar
+      <AppSnackbar
         open={snackbarOpen}
-        autoHideDuration={6000}
+        severity={snackbarSeverity}
+        message={snackbarMessage}
         onClose={handleSnackbarClose}
-      >
-        <Alert
-          onClose={handleSnackbarClose}
-          severity={snackbarSeverity}
-          sx={{ width: '100%' }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      />
     </Paper>
   );
 };
