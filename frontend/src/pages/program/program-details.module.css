@@ -1,0 +1,14 @@
+.paper {
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.card {
+  height: 100%;
+  width: 100%;
+}
+
+.backButton {
+  margin-top: 20px;
+}

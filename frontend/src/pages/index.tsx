@@ -27,7 +27,14 @@ const Home = () => {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Typography variant="h4">Programs</Typography>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Typography variant="h4">Programs</Typography>
+        <Link href="/program/new-program" passHref>
+          <Button variant="contained" color="primary">
+            Add New Program
+          </Button>
+        </Link>
+      </Box>
       <Grid2 container spacing={2} sx={{ mt: 2 }}>
         {programs.map((program) => (
           <Grid2 item xs={12} sm={6} md={4} key={program.id}>

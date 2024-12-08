@@ -1,87 +1,92 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-} from '@mui/material';
-import axios from 'axios';
+import { Box, Button, TextField, Typography, Paper } from '@mui/material';
+import axiosInstance from '@/api/axios';
 
 const NewProgram = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [modules, setModules] = useState([]);
-  const [selectedModules, setSelectedModules] = useState([]);
+  const [modules, setModules] = useState([{ title: '', description: '' }]);
   const router = useRouter();
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL as string}/modules`)
-      .then((response) => setModules(response.data))
-      .catch(() => alert('Failed to fetch modules'));
-  }, []);
+  const handleAddModule = () => {
+    setModules([...modules, { title: '', description: '' }]);
+  };
 
-  const handleSubmit = () => {
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) {
-      alert('You must log in first!');
-      return;
+  const handleModuleChange = (index: number, key: string, value: string) => {
+    const updatedModules = modules.map((module, i) =>
+      i === index ? { ...module, [key]: value } : module
+    );
+    setModules(updatedModules);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const newProgram = {
+        title,
+        content,
+        modules,
+      };
+      await axiosInstance.post('/programs', newProgram);
+      router.push('/');
+    } catch (error) {
+      console.error('Failed to create new program:', error);
+      alert('Failed to create new program');
     }
-
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_API_URL as string}/programs`,
-        { title, content, modules: selectedModules },
-        { headers: { Authorization: `Bearer ${jwt}` } }
-      )
-      .then(() => router.push('/'))
-      .catch(() => alert('Failed to create program'));
   };
 
   return (
-    <Box sx={{ p: 2 }}>
-      <Typography variant="h4">New Program</Typography>
-      <Box component="form" sx={{ mt: 2 }}>
-        <TextField
-          fullWidth
-          label="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          sx={{ mb: 2 }}
-        />
-        <TextField
-          fullWidth
-          multiline
-          rows={4}
-          label="Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          sx={{ mb: 2 }}
-        />
-        <FormControl fullWidth sx={{ mb: 2 }}>
-          <InputLabel>Modules</InputLabel>
-          <Select
-            multiple
-            value={selectedModules}
-            onChange={(e) => setSelectedModules(e.target.value)}
-          >
-            {modules.map((module) => (
-              <MenuItem key={module.id} value={module.id}>
-                {module.title}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <Button variant="contained" onClick={handleSubmit}>
-          Submit
-        </Button>
-      </Box>
-    </Box>
+    <Paper sx={{ padding: 2, maxWidth: 600, margin: '0 auto' }}>
+      <Typography variant="h4" gutterBottom>
+        Add New Program
+      </Typography>
+      <TextField
+        fullWidth
+        label="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        fullWidth
+        label="Content"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        sx={{ mb: 2 }}
+      />
+      <Typography variant="h6">Modules:</Typography>
+      {modules.map((module, index) => (
+        <Box key={index} sx={{ mb: 2 }}>
+          <TextField
+            fullWidth
+            label="Module Title"
+            value={module.title}
+            onChange={(e) => handleModuleChange(index, 'title', e.target.value)}
+            sx={{ mb: 1 }}
+          />
+          <TextField
+            fullWidth
+            label="Module Description"
+            value={module.description}
+            onChange={(e) =>
+              handleModuleChange(index, 'description', e.target.value)
+            }
+            sx={{ mb: 1 }}
+          />
+        </Box>
+      ))}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleAddModule}
+        sx={{ mb: 2 }}
+      >
+        Add Module
+      </Button>
+      <Button variant="contained" color="primary" onClick={handleSubmit}>
+        Submit
+      </Button>
+    </Paper>
   );
 };
 
