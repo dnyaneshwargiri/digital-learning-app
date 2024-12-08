@@ -1,0 +1,36 @@
+[
+  {
+    "title": "Introduction to Programming",
+    "description": "Learn the basics of programming."
+  },
+  {
+    "title": "Web Development Basics",
+    "description": "HTML, CSS, and JavaScript essentials."
+  },
+  {
+    "title": "Advanced JavaScript",
+    "description": "Deep dive into JS concepts."
+  },
+  { "title": "React Fundamentals", "description": "Introduction to React.js." },
+  { "title": "Node.js Basics", "description": "Learn server-side JavaScript." },
+  {
+    "title": "Databases 101",
+    "description": "Introduction to relational databases."
+  },
+  {
+    "title": "APIs and Integration",
+    "description": "Building and consuming APIs."
+  },
+  {
+    "title": "Authentication Techniques",
+    "description": "Learn how to implement secure auth."
+  },
+  {
+    "title": "Testing in JavaScript",
+    "description": "Unit testing and integration testing."
+  },
+  {
+    "title": "Deployment Strategies",
+    "description": "Deploy applications to the cloud."
+  }
+]

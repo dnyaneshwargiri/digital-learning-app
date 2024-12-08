@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Full-Stack Web Development",
+    "content": "Learn to build full-stack web applications.",
+    "modules": [{ "id": 1 }, { "id": 2 }, { "id": 3 }, { "id": 4 }]
+  },
+  {
+    "title": "Front-End Development",
+    "content": "Master client-side technologies.",
+    "modules": [{ "id": 2 }, { "id": 3 }, { "id": 4 }]
+  },
+  {
+    "title": "Back-End Development",
+    "content": "Server-side programming and database design.",
+    "modules": [{ "id": 5 }, { "id": 6 }, { "id": 7 }]
+  },
+  {
+    "title": "React and Redux",
+    "content": "Advanced React concepts and state management.",
+    "modules": [{ "id": 4 }, { "id": 8 }]
+  },
+  {
+    "title": "API Development",
+    "content": "Learn to design and build APIs.",
+    "modules": [{ "id": 7 }, { "id": 9 }]
+  },
+  {
+    "title": "Testing and Debugging",
+    "content": "Ensure application quality through testing.",
+    "modules": [{ "id": 9 }, { "id": 10 }]
+  },
+  {
+    "title": "Database Management",
+    "content": "Learn to design and optimize databases.",
+    "modules": [{ "id": 6 }]
+  },
+  {
+    "title": "Web App Deployment",
+    "content": "Deploy and manage web applications.",
+    "modules": [{ "id": 10 }]
+  },
+  {
+    "title": "Authentication Systems",
+    "content": "Implement secure authentication and authorization.",
+    "modules": [{ "id": 8 }]
+  },
+  {
+    "title": "JavaScript Mastery",
+    "content": "Comprehensive JavaScript course.",
+    "modules": [{ "id": 3 }, { "id": 9 }]
+  }
+]
