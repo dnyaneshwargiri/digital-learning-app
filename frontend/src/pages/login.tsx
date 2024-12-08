@@ -30,7 +30,7 @@ const Login = () => {
       sessionStorage.setItem('jwtToken', response.data.jwt);
       router.push('/');
     } catch (error) {
-      setSnackbarMessage('Login failed');
+      setSnackbarMessage(`Login failed ${error}`);
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }

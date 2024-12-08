@@ -19,8 +19,10 @@ import withAuth from '@/app/utils/guards/with-auth';
 const NewProgram = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [modules, setModules] = useState([{ title: '', description: '' }]);
-  const [availableModules, setAvailableModules] = useState([]);
+  const [modules, setModules] = useState([
+    { title: '', description: '', documentId: '' },
+  ]);
+  const [availableModules, setAvailableModules] = useState<Module[]>([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
     'success'
@@ -45,23 +47,30 @@ const NewProgram = () => {
   }, []);
 
   const handleAddModule = () => {
-    setModules([...modules, { title: '', description: '' }]);
+    setModules([...modules, { title: '', description: '', documentId: '' }]);
   };
 
   const handleModuleChange = (index: number, key: string, value: string) => {
     let newDescription = '';
+    let documentId = '';
     if (key === 'title') {
       const selectedModule = availableModules.find(
-        (mod) => mod.title === value
+        (mod: Module) => mod.title === value
       );
       if (selectedModule) {
         newDescription = selectedModule.description;
+        documentId = selectedModule.documentId || '';
       }
     }
 
     const updatedModules = modules.map((module, i) =>
       i === index
-        ? { ...module, [key]: value, description: newDescription }
+        ? {
+            ...module,
+            [key]: value,
+            description: newDescription,
+            documentId,
+          }
         : module
     );
     setModules(updatedModules);
@@ -107,7 +116,8 @@ const NewProgram = () => {
         data: newProgram,
       });
 
-      const moduleIds = modules.map((module) => module.title);
+      const moduleIds = modules.map((module) => module.documentId);
+
       const connectPayload = {
         data: {
           modules: {
@@ -116,7 +126,7 @@ const NewProgram = () => {
         },
       };
       await axiosInstance.put(
-        `/programs/${programResponse.data.documentId}`,
+        `/programs/${programResponse.data.data.documentId}`,
         connectPayload
       );
 
@@ -138,7 +148,16 @@ const NewProgram = () => {
   };
 
   return (
-    <Paper sx={{ padding: 2, maxWidth: 600, margin: '0 auto' }}>
+    <Paper
+      sx={{
+        padding: 2,
+        maxWidth: 600,
+        margin: '2rem auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'start',
+      }}
+    >
       <Typography variant="h4" gutterBottom>
         Add New Program
       </Typography>
@@ -164,7 +183,7 @@ const NewProgram = () => {
       </FormControl>
       <Typography variant="h6">Modules</Typography>
       {modules.map((module, index) => (
-        <Box key={index} sx={{ mb: 2 }}>
+        <Box key={index} sx={{ mb: 2, width: '100%' }}>
           <Select
             fullWidth
             value={module.title}
@@ -199,7 +218,7 @@ const NewProgram = () => {
       >
         Add Module
       </Button>
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" width="100%">
         <Button
           variant="outlined"
           color="error"

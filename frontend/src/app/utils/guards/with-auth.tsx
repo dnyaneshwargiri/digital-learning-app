@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-const withAuth = (WrappedComponent: React.ComponentType) => {
-  const AuthGuard = (props: any) => {
+interface AuthGuardProps {
+  [key: string]: unknown;
+}
+
+const withAuth = (WrappedComponent: React.ComponentType<AuthGuardProps>) => {
+  const AuthGuard = (props: AuthGuardProps) => {
     const router = useRouter();
 
     useEffect(() => {
