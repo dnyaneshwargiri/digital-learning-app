@@ -56,7 +56,7 @@ const Home = () => {
       >
         <Typography variant="h4">Programs</Typography>
         <Link href="/program/new-program" passHref>
-          <Button variant="contained" color="primary">
+          <Button variant="outlined" color="primary">
             Add New Program
           </Button>
         </Link>
@@ -74,7 +74,7 @@ const Home = () => {
                   Modules: {program.modules.length}
                 </Typography>
                 <Link href={`/program/${program.id}`} passHref>
-                  <Button variant="contained" color="primary">
+                  <Button variant="text" color="primary">
                     View Program
                   </Button>
                 </Link>

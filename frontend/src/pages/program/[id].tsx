@@ -62,7 +62,7 @@ const ProgramDetails = () => {
         ))}
       </Grid2>
       <Button
-        variant="contained"
+        variant="text"
         color="primary"
         onClick={() => router.push('/')}
         className={styles.backButton}

@@ -103,10 +103,25 @@ const NewProgram = () => {
         title,
         content,
       };
-      const payload = { data: newProgram };
-      await axiosInstance.post('/programs', payload);
+      const programResponse = await axiosInstance.post('/programs', {
+        data: newProgram,
+      });
+
+      const moduleIds = modules.map((module) => module.title);
+      const connectPayload = {
+        data: {
+          modules: {
+            connect: moduleIds,
+          },
+        },
+      };
+      await axiosInstance.put(
+        `/programs/${programResponse.data.documentId}`,
+        connectPayload
+      );
+
       setSnackbarSeverity('success');
-      setSnackbarMessage('Program created successfully!');
+      setSnackbarMessage('Program created and modules added successfully!');
     } catch (error) {
       console.error('Failed to create new program:', error);
       setSnackbarSeverity('error');
@@ -147,7 +162,7 @@ const NewProgram = () => {
         />
         {contentError && <FormHelperText>Content is required</FormHelperText>}
       </FormControl>
-      <Typography variant="h6">Modules:</Typography>
+      <Typography variant="h6">Modules</Typography>
       {modules.map((module, index) => (
         <Box key={index} sx={{ mb: 2 }}>
           <Select
@@ -177,8 +192,8 @@ const NewProgram = () => {
         </Box>
       ))}
       <Button
-        variant="contained"
-        color="primary"
+        variant="text"
+        color="info"
         onClick={handleAddModule}
         sx={{ mb: 2 }}
       >
@@ -187,12 +202,12 @@ const NewProgram = () => {
       <Box display="flex" justifyContent="space-between">
         <Button
           variant="outlined"
-          color="secondary"
+          color="error"
           onClick={() => router.push('/')}
         >
           Cancel
         </Button>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
+        <Button variant="contained" color="success" onClick={handleSubmit}>
           Submit
         </Button>
       </Box>
