@@ -1,6 +1,6 @@
 export interface Program {
   id: number;
   title: string;
-  description: string;
+  content: string;
   modules: Array<{ title: string; description: string }>;
 }

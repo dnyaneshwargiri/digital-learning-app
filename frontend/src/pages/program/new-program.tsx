@@ -35,7 +35,7 @@ const NewProgram = () => {
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_API_URLL as string}/programs`,
+        `${process.env.NEXT_PUBLIC_API_URL as string}/programs`,
         { title, content, modules: selectedModules },
         { headers: { Authorization: `Bearer ${jwt}` } }
       )

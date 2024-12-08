@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import axios from 'axios';
@@ -7,6 +7,15 @@ const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    // Check if the JWT token exists in localStorage
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      // If a token exists, redirect the user to the home page
+      router.push('/');
+    }
+  }, [router]);
 
   const handleSubmit = async () => {
     try {
@@ -17,7 +26,7 @@ const Login = () => {
           password,
         }
       );
-      localStorage.setItem('jwt', response.data.jwt);
+      localStorage.setItem('jwtToken', response.data.jwt);
       router.push('/');
     } catch (error) {
       alert('Login failed');

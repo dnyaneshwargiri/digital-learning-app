@@ -1,8 +1,9 @@
-// src/pages/programs/[id].tsx
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { Typography, Button, Paper } from '@mui/material';
+import axios from 'axios';
 import { ProgramDetailsProps } from '@/app/types/ProgramDetailsProps';
+import axiosInstance from '@/api/axios';
 
 const ProgramDetails = ({ program }: ProgramDetailsProps) => {
   const router = useRouter();
@@ -45,20 +46,17 @@ export default ProgramDetails;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params!;
-
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/programs/${id}?populate=modules`
-    );
-    const data = await res.json();
+    const res = await axiosInstance.get(`/programs/${id}?populate=modules`);
+    const data = res.data;
 
-    if (!res.ok) {
+    if (!res.data) {
       throw new Error(data.error || 'Failed to fetch program details');
     }
 
     return {
       props: {
-        program: data.data, // Assuming the API returns the program in `data.data`
+        program: data.data,
       },
     };
   } catch (error) {
