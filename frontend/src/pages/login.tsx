@@ -2,20 +2,28 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import axios from 'axios';
+import AppSnackbar from '@/app/common/snackbar';
 
 const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
+    'error'
+  );
 
   useEffect(() => {
-    // Check if the JWT token exists in localStorage
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      // If a token exists, redirect the user to the home page
       router.push('/');
     }
   }, [router]);
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const handleSubmit = async () => {
     try {
@@ -29,7 +37,9 @@ const Login = () => {
       localStorage.setItem('jwtToken', response.data.jwt);
       router.push('/');
     } catch (error) {
-      alert('Login failed');
+      setSnackbarMessage('Login failed');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
     }
   };
 
@@ -59,6 +69,12 @@ const Login = () => {
       <Button variant="contained" onClick={handleSubmit} sx={{ mt: 2 }}>
         Submit
       </Button>
+      <AppSnackbar
+        open={snackbarOpen}
+        severity={snackbarSeverity}
+        message={snackbarMessage}
+        onClose={handleSnackbarClose}
+      />
     </Box>
   );
 };

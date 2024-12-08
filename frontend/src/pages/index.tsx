@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import {
   Box,
   Button,
@@ -11,10 +10,15 @@ import {
 import Link from 'next/link';
 import { Program } from '@/app/types/Program';
 import axiosInstance from '@/api/axios';
+import AppSnackbar from '@/app/common/snackbar';
 
 const Home = () => {
   const [programs, setPrograms] = useState<Program[]>([]);
-  const router = useRouter();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
+    'error'
+  );
 
   useEffect(() => {
     axiosInstance
@@ -22,8 +26,16 @@ const Home = () => {
       .then((response) => {
         setPrograms(response.data.data);
       })
-      .catch(() => alert('Failed to fetch programs'));
+      .catch(() => {
+        setSnackbarMessage('Failed to fetch programs');
+        setSnackbarSeverity('error');
+        setSnackbarOpen(true);
+      });
   }, []);
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <Box sx={{ p: 2 }}>
@@ -57,6 +69,12 @@ const Home = () => {
           </Grid2>
         ))}
       </Grid2>
+      <AppSnackbar
+        open={snackbarOpen}
+        severity={snackbarSeverity}
+        message={snackbarMessage}
+        onClose={handleSnackbarClose}
+      />
     </Box>
   );
 };

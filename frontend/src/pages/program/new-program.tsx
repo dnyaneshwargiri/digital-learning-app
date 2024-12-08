@@ -36,7 +36,11 @@ const NewProgram = () => {
       .then((response) => {
         setAvailableModules(response.data.data);
       })
-      .catch(() => alert('Failed to fetch available modules'));
+      .catch(() => {
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Failed to fetch available modules');
+        setSnackbarOpen(true);
+      });
   }, []);
 
   const handleAddModule = () => {
